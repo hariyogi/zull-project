@@ -2,77 +2,49 @@
 
 @section('title', 'Login Staff')
 
-@section('styles')
-<style>
-    :root {
-        --accent-color: #3b82f6;
-        --accent-hover: #2563eb;
-        --accent-text: #ffffff;
-    }
-</style>
-@endsection
-
 @section('content')
-<div class="auth-card">
-    <div class="auth-header">
-        <div class="auth-logo">ZULL LOGBOOK</div>
-        <h1 class="auth-title">Portal Staff</h1>
-        <p class="auth-subtitle">Masuk untuk mengisi logbook harian Anda</p>
-    </div>
+    <div class="flex flex-col gap-4 min-w-xl">
+        @if($errors->any())
+            <div class="alert-error">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>{{ $errors->first() }}</span>
+            </div>
+        @endif
 
-    @if($errors->any())
-        <div class="alert-error">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <span>{{ $errors->first() }}</span>
-        </div>
-    @endif
+        <form class="flex flex-col gap-4" action="{{ url('/login/staff') }}" method="POST">
+            @csrf
 
-    <form action="{{ url('/login/staff') }}" method="POST">
-        @csrf
-        
-        <div class="form-group">
-            <label for="username" class="form-label">Username</label>
-            <div class="input-wrapper">
-                <input 
-                    type="text" 
-                    id="username" 
+            <div>
+                <label class="input-label" for="username-field">Username</label>
+                <input
+                    id="username-field"
                     name="username" 
-                    class="form-input" 
-                    placeholder="Masukkan username Anda" 
-                    value="{{ old('username') }}" 
-                    required 
-                    autofocus
-                    autocomplete="username"
-                >
+                    type="text" 
+                    required id="login-username"
+                    class="input-field"
+                    placeholder="nama pengguna">
             </div>
-        </div>
 
-        <div class="form-group" style="margin-bottom: 28px;">
-            <label for="password" class="form-label">Password</label>
-            <div class="input-wrapper">
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="form-input" 
-                    placeholder="••••••••" 
+            <div>
+                <label class="input-label" for="password-field">Password</label>
+                <input
+                    id="password-field"
+                    name="password"
+                    type="password"
                     required
-                    autocomplete="current-password"
-                >
+                    class="input-field"
+                    placeholder="••••••••">
             </div>
-        </div>
 
-        <button type="submit" class="btn-primary">
-            Masuk sebagai Staff
-        </button>
-    </form>
+            <button type="submit" class="btn-primary">
+                Masuk sebagai Staff
+            </button>
+        </form>
 
-    <a href="{{ route('login.admin') }}" class="btn-secondary">
-        Login sebagai Admin
-    </a>
-</div>
+        <p class="text-center">Bukan Staff ? <a href="{{ route('login.admin') }}" class="text-blue-500 hover:text-blue-700">Login sebagai Admin</a></p>
+    </div>
 @endsection
