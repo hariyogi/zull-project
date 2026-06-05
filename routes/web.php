@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Task\TaskController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to staff login by default or dashboard if logged in
@@ -27,4 +27,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // Task Route
 Route::get('/task', [TaskController::class, 'index'])->name('task');
 Route::get('/task/create', [TaskController::class, 'showCreateTask'])->name('task.create');
-Route::post('/task/create', [TaskController::class, 'createTask'])->name('task.store');
+Route::post('/cicing/store', [TaskController::class, 'createTask'])->name('task.store');

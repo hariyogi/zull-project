@@ -30,11 +30,11 @@
                     <tbody>
                         @forelse ($tasks as $task)
                             <tr>
-                                <td class="py-4 px-6">{{ $task->user_id }}</td>
+                                <td class="py-4 px-6">{{ $task->assignedTo->name }}</td>
                                 <td class="py-4 px-6">{{ $task->title }}</td>
                                 <td class="py-4 px-6">{{ $task->description }}</td>
                                 <td class="py-4 px-6">{{ $task->status }}</td>
-                                <td class="py-4 px-6">{{ $task->assign_by }}</td>
+                                <td class="py-4 px-6">{{ $task->assignedBy->name }}</td>
                                 <td class="py-4 px-6">{{ $task->start_at }}</td>
                                 <td class="py-4 px-6">{{ $task->end_at }}</td>
                                 <td class="py-4 px-6">{{ $task->created_at }}</td>

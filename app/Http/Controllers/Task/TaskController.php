@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Task;
 
+use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Response;
-use Illuminate\http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -18,7 +19,7 @@ class TaskController extends Controller
             return response()->view('unauthorized', [], 403);
         }
 
-        $tasks = Task::all();
+        $tasks = Task::with(['assignedTo', 'assignedBy'])->get();
 
         return view('task.task')->with('tasks', $tasks);
     }
@@ -31,12 +32,11 @@ class TaskController extends Controller
 
         $staffs = User::where('role', 'STAFF')->get();
 
-        return view('task.task-add')->with('staffs', $staffs);
+        return view('task.taskadd')->with('staffs', $staffs);
     }
 
-    public function createTask(Request $request): RedirectResponse|Response 
+    public function createTask(Request $request): RedirectResponse|Response
     {
-        dd($request);
         if (! Auth::check()) {
             return response()->view('unauthorized', [], 403);
         }

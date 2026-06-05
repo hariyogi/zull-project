@@ -64,9 +64,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn-primary">
-                Simpan Task
-            </button>
+            <input type="submit" class="btn-primary" value="Simpan Task" />
         </form>
     </div>
 
