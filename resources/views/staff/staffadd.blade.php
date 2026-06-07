@@ -2,11 +2,10 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Membuat Task"
+        page_title="List Staff"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Task', 'url' => route('task')],
-            ['label' => 'Create', 'url' => '']
+            ['label' => 'Staff', 'url' => route('staff')]
         ]"
     />
 @endsection
@@ -31,15 +30,15 @@
             </div>
         @endif
         @error('any_error')
-            <p>{{ $message }}</p>
+        <p>{{ $message }}</p>
         @enderror
-        <form action="{{ route('task.store') }}" method="post" class="flex flex-col gap-4">
+        <form action="{{ route('staff.store') }}" method="post" class="flex flex-col gap-4">
             @csrf
             <div>
-                <label class="input-label" for="title">Judul Tugas</label>
+                <label class="input-label" for="username">Username</label>
                 <input
-                    name="title"
-                    id="title"
+                    name="username"
+                    id="username"
                     type="text"
                     required
                     class="input-field"
@@ -47,10 +46,10 @@
                 />
             </div>
             <div>
-                <label class="input-label" for="description">Deskripsi Tugas</label>
+                <label class="input-label" for="name">Nama</label>
                 <input
-                    name="description"
-                    id="description"
+                    name="name"
+                    id="name"
                     type="text"
                     required
                     class="input-field"
@@ -58,20 +57,28 @@
                 />
             </div>
             <div>
-                <label class="input-label" for="assign_to">Di tugaskan ke</label>
-                <select
-                    name="assign_to"
-                    id="assign_to"
+                <label class="input-label" for="password">Password</label>
+                <input
+                    name="password"
+                    id="password"
+                    type="password"
                     required
                     class="input-field"
-                >
-                    <option value="" disabled>--- Pilih Staff ---</option>
-                    @foreach ($staffs as  $staff)
-                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
-                    @endforeach
-                </select>
+                    value="{{ old('description') }}"
+                />
             </div>
-            <input type="submit" class="btn-primary" value="Simpan Task" />
+            <div>
+                <label class="input-label" for="password_confirmation">Konfirmasi Password</label>
+                <input
+                    name="password_confirmation"
+                    id="password_confirmation"
+                    type="password"
+                    required
+                    class="input-field"
+                    value="{{ old('description') }}"
+                />
+            </div>
+            <input type="submit" class="btn-primary" value="Tambahkan Staff" />
         </form>
     </div>
 

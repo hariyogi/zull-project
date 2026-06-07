@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
     <div class="bg-slate-100 flex flex-col gap-4 justify-center items-center w-full h-screen">
@@ -20,7 +22,7 @@
             &copy; {{ date('Y') }} Zull Logbook. All rights reserved.
         </div>
     </div>
-    
+
     @yield('scripts')
 </body>
 </html>
