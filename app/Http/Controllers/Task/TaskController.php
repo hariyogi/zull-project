@@ -27,6 +27,21 @@ class TaskController extends Controller
         return view('task.task')->with('tasks', $tasks);
     }
 
+    public function showReport()
+    {
+        $dbCounts = Task::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $taskCounts = [];
+
+        foreach (TaskStatus::cases() as $status) {
+            $taskCounts[$status->value] = $dbCounts->get($status->value, 0);
+        }
+
+        return view('task.taskreport', compact('taskCounts'));
+    }
+
     public function showCreateTask(): View|Response
     {
         if (! Auth::check()) {

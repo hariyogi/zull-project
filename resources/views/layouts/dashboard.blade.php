@@ -26,17 +26,17 @@
         <ul class="flex flex-col gap-1">
             <li class="text-sm px-4 py-2.5">Manajemen Tugas</li>
             <li>
-                <a href="#"
+                <a href="{{route('task.report')}}"
                    class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
                     <i class="fa-solid fa-chart-line text-base"></i>
-                    <span>Analitik</span>
+                    <span>Laporan</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('task') }}"
                    class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
                     <i class="fa-solid fa-list-check text-base"></i>
-                    <span>Task</span>
+                    <span>Tugas</span>
                 </a>
             </li>
             <li class="text-sm px-4 py-2.5 mt-4">Master Data</li>

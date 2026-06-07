@@ -2,10 +2,10 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Detail Task"
+        page_title="Detail Tugas"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Task', 'url' => route('task')],
+            ['label' => 'Tugas', 'url' => route('task')],
             ['label' => 'Detail', 'url' => ''] {{-- Kosongkan URL agar warnanya abu-abu/tidak aktif --}}
         ]"
     />

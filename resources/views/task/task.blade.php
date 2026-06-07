@@ -2,10 +2,10 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="List Task"
+        page_title="List Tugas"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Task', 'url' => '']
+            ['label' => 'Tugas', 'url' => '']
         ]"
     />
 @endsection

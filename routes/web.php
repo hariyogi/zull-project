@@ -27,6 +27,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Task Route
 Route::get('/task', [TaskController::class, 'index'])->name('task');
+Route::get('/task/report', [TaskController::class, 'showReport'])->name('task.report');
 Route::get('/task/create', [TaskController::class, 'showCreateTask'])->name('task.create');
 Route::post('/task/create', [TaskController::class, 'createTask'])->name('task.store');
 Route::get('/task/detail/{taskId}', [TaskController::class, 'showDetailTask'])->name('task.detail');

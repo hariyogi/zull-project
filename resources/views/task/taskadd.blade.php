@@ -2,11 +2,11 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Membuat Task"
+        page_title="Menambahkan Tugas"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Task', 'url' => route('task')],
-            ['label' => 'Create', 'url' => '']
+            ['label' => 'Tugas', 'url' => route('task')],
+            ['label' => 'Tambah', 'url' => '']
         ]"
     />
 @endsection
