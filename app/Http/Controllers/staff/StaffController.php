@@ -17,10 +17,6 @@ class StaffController extends Controller
 
     public function index(): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staffs = User::where('role', 'STAFF')->paginate(50);
 
         return view('staff.staff', compact('staffs'));
@@ -28,19 +24,11 @@ class StaffController extends Controller
 
     public function showCreateStaff(): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         return view('staff.staff-add');
     }
 
     public function showEditStaff($staffId): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staff = User::find($staffId);
 
         return view('staff.staff-edit', compact('staff'));
@@ -48,10 +36,6 @@ class StaffController extends Controller
 
     public function showDetailStaff($staffId): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staff = User::findOrFail($staffId);
 
         return view('staff.staff-detail', compact('staff'));
@@ -59,10 +43,6 @@ class StaffController extends Controller
 
     public function showChangePasswordStaff($staffId): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staff = User::findOrFail($staffId);
 
         return view('staff.staff-change-pass', compact('staff', 'staffId'));
@@ -70,10 +50,6 @@ class StaffController extends Controller
 
     public function saveStaff(Request $request): RedirectResponse|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $input = $request->validate([
             'username' => 'required|string|max:255|unique:users,username',
             'name' => 'required|string|max:255',
@@ -89,10 +65,6 @@ class StaffController extends Controller
 
     public function changePasswordStaff(Request $request, $staffId): RedirectResponse|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staff = User::where('role', UserRole::STAFF)
             ->where('id', $staffId)
             ->firstOrFail();
@@ -108,10 +80,6 @@ class StaffController extends Controller
 
     public function editStaff(Request $request, $staffId): RedirectResponse|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staff = User::where('role', 'STAFF')->findOrFail($staffId);
 
         $validated = $request->validate([

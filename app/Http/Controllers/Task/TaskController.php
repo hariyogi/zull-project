@@ -19,10 +19,6 @@ class TaskController extends Controller
 {
     public function index(): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $tasks = Task::with(['assignedTo', 'assignedBy'])->paginate(50);
 
         return view('task.task')->with('tasks', $tasks);
@@ -31,10 +27,6 @@ class TaskController extends Controller
 
     public function showReport()
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $dbCounts = Task::select('status', DB::raw('count(*) as total'))
             ->groupBy('status')
             ->pluck('total', 'status');
@@ -51,10 +43,6 @@ class TaskController extends Controller
 
     public function showCreateTask(): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $staffs = User::where('role', 'STAFF')->get();
 
         return view('task.task-add')->with('staffs', $staffs);
@@ -62,10 +50,6 @@ class TaskController extends Controller
 
     public function showUpdateTask($taskId): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $task = Task::findOrFail($taskId);
 
         $staffs = User::where('role', 'STAFF')->get();
@@ -76,11 +60,6 @@ class TaskController extends Controller
 
     public function showDetailTask(Request $request, $taskId): View|Response
     {
-
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $task = Task::with(['assignedTo', 'assignedBy'])->findOrFail($taskId);
 
         $activity = ActivityTask::where('task_id', $taskId)
@@ -103,10 +82,6 @@ class TaskController extends Controller
 
     public function createTask(Request $request): RedirectResponse|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $validate = $request->validate([
             'assign_to' => ['required', 'exists:users,id'],
             'title' => ['required', 'string'],
@@ -144,11 +119,8 @@ class TaskController extends Controller
         return redirect()->route('task');
     }
 
-    public function updateTask(Request $request, $taskId): RedirectResponse|Response {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
+    public function updateTask(Request $request, $taskId): RedirectResponse|Response
+    {
         $validated = $request->validate([
             'title'       => ['required', 'string', 'max:150'],
             'description' => ['required', 'string'],

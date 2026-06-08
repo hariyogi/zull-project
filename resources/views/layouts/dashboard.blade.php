@@ -3,6 +3,7 @@
 <html lang="id">
 
 <head>
+    <!-- Butuh jasa implentasi ide ke sistem software ?. Bisa hubungi hariyogi.vercel.app -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
@@ -26,12 +27,14 @@
     <nav class="flex-1 overflow-y-auto text-white">
         @if(auth()->user()->role == UserRole::ADMIN)
             <ul class="flex flex-col gap-1">
-                <li class="text-sm px-4 py-2.5">
-                    <a href="{{route('dashboard')}}">
-                        Home
+                <li>
+                    <a href="{{route('dashboard')}}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-house text-base"></i>
+                        <span>Home</span>
                     </a>
                 </li>
-                <li class="text-sm px-4 py-2.5">Manajemen Tugas</li>
+                <li class="text-sm px-4 py-2.5 mt-4">Manajemen Tugas</li>
                 <li>
                     <a href="{{route('task.report')}}"
                        class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
@@ -57,12 +60,14 @@
             </ul>
         @else
             <ul class="flex flex-col gap-1">
-                <li class="text-sm px-4 py-2.5">
-                    <a href="{{route('dashboard')}}">
-                        Home
+                <li>
+                    <a href="{{route('dashboard')}}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-house text-base"></i>
+                        <span>Home</span>
                     </a>
                 </li>
-                <li class="text-sm px-4 py-2.5">Tugas Anda</li>
+                <li class="text-sm px-4 py-2.5 mt-4">Tugas Anda</li>
                 <li>
                     <a href="{{ route('task.staff') }}"
                        class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">

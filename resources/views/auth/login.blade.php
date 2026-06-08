@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Butuh jasa implentasi ide ke sistem software ?. Bisa hubungi hariyogi.vercel.app -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
@@ -59,9 +60,6 @@
                 </button>
             </form>
         </div>
-    </div>
-    <div class="auth-footer">
-        &copy; {{ date('Y') }} Zull Logbook. All rights reserved.
     </div>
 </div>
 

@@ -20,10 +20,6 @@ class TaskStaffController extends Controller
 
     public function indexStaff(): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         $tasks = Task::where('assign_to', Auth::id())
             ->with(['assignedTo', 'assignedBy'])
             ->paginate(50);
@@ -33,10 +29,6 @@ class TaskStaffController extends Controller
 
     public function showReportStaff($taskId): View|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         if (Auth::user()->role == UserRole::STAFF) {
             $task = $this->getAssignedTask($taskId, Auth::id());
 
@@ -55,10 +47,6 @@ class TaskStaffController extends Controller
 
     public function storeReportStaff(Request $request, $taskId): RedirectResponse|Response
     {
-        if (!Auth::check()) {
-            return response()->view('unauthorized', [], 403);
-        }
-
         if (Auth::user()->role == UserRole::STAFF) {
             $task = $this->getAssignedTask($taskId, Auth::id());
 
@@ -109,7 +97,7 @@ class TaskStaffController extends Controller
         if (Auth::user()->role == UserRole::STAFF) {
             return redirect()->route('task.staff');
         }else {
-            return redirect()->route('task');
+            return redirect()->route('task.detail', $taskId);
         }
     }
 

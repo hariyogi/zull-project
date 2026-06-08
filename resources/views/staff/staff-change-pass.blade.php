@@ -2,11 +2,12 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Menambahkan Staff"
+        page_title="Ganti Password"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
             ['label' => 'Staff', 'url' => route('staff')],
-            ['label' => 'Detail', 'url' => route('staff.detail', $staffId)]
+            ['label' => 'Detail', 'url' => route('staff.detail', $staffId)],
+            ['label' => 'Ganti Password', 'url' => '']
         ]"
     />
 @endsection

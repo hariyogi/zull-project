@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Menambahkan Staff"
+        page_title="Edit Staff"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
             ['label' => 'Staff', 'url' => route('staff')],
