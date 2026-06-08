@@ -66,7 +66,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td>Tidak ada data</td>
+                            <td colspan="10" class="text-center py-8">Tidak ada data</td>
                         </tr>
                     @endforelse
                     </tbody>

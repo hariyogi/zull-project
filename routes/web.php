@@ -4,20 +4,17 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\staff\StaffController;
 use App\Http\Controllers\Task\TaskController;
+use App\Http\Controllers\Task\TaskStaffController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to staff login by default or dashboard if logged in
 Route::get('/', function () {
-    return redirect()->route('login.staff');
+    return redirect()->route('login');
 });
 
 // Admin Login Routes
-Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm'])->name('login.admin');
-Route::post('/login/admin', [LoginController::class, 'loginAdmin']);
-
-// Staff Login Routes
-Route::get('/login/staff', [LoginController::class, 'showStaffLoginForm'])->name('login.staff');
-Route::post('/login/staff', [LoginController::class, 'loginStaff']);
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'doLogin'])->name('login.post');
 
 // Logout Route
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -29,8 +26,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/task', [TaskController::class, 'index'])->name('task');
 Route::get('/task/report', [TaskController::class, 'showReport'])->name('task.report');
 Route::get('/task/create', [TaskController::class, 'showCreateTask'])->name('task.create');
-Route::post('/task/create', [TaskController::class, 'createTask'])->name('task.store');
 Route::get('/task/detail/{taskId}', [TaskController::class, 'showDetailTask'])->name('task.detail');
+Route::post('/task/create', [TaskController::class, 'createTask'])->name('task.store');
+Route::get('/activity/{activity_task_id}/evidences', [TaskController::class, 'showEvidences'])->name('task.activity.evidences');
+
+Route::get('/task/staff', [TaskStaffController::class, 'indexStaff'])->name('task.staff');
+Route::get('/task/staff/{taskId}/report', [TaskStaffController::class, 'showReportStaff'])->name('task.staff.report');
+Route::post('/task/staff/{taskId}/report', [TaskStaffController::class, 'storeReportStaff'])->name('task.staff.report.store');
 
 // Staff Route
 Route::get('/staff', [StaffController::class, 'index'])->name('staff');

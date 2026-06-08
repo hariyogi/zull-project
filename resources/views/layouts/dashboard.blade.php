@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+@php use App\Enums\UserRole; @endphp
+    <!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -23,31 +24,44 @@
     </div>
 
     <nav class="flex-1 overflow-y-auto text-white">
-        <ul class="flex flex-col gap-1">
-            <li class="text-sm px-4 py-2.5">Manajemen Tugas</li>
-            <li>
-                <a href="{{route('task.report')}}"
-                   class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
-                    <i class="fa-solid fa-chart-line text-base"></i>
-                    <span>Laporan</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('task') }}"
-                   class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
-                    <i class="fa-solid fa-list-check text-base"></i>
-                    <span>Tugas</span>
-                </a>
-            </li>
-            <li class="text-sm px-4 py-2.5 mt-4">Master Data</li>
-            <li>
-                <a href="{{route('staff')}}"
-                   class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
-                    <i class="fa-solid fa-user-group text-base"></i>
-                    <span>Manjemen Staff</span>
-                </a>
-            </li>
-        </ul>
+        @if(auth()->user()->role == UserRole::ADMIN)
+            <ul class="flex flex-col gap-1">
+                <li class="text-sm px-4 py-2.5">Manajemen Tugas</li>
+                <li>
+                    <a href="{{route('task.report')}}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-chart-line text-base"></i>
+                        <span>Laporan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('task') }}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-list-check text-base"></i>
+                        <span>Tugas</span>
+                    </a>
+                </li>
+                <li class="text-sm px-4 py-2.5 mt-4">Master Data</li>
+                <li>
+                    <a href="{{route('staff')}}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-user-group text-base"></i>
+                        <span>Manjemen Staff</span>
+                    </a>
+                </li>
+            </ul>
+        @else
+            <ul class="flex flex-col gap-1">
+                <li class="text-sm px-4 py-2.5">Tugas Anda</li>
+                <li>
+                    <a href="{{ route('task.staff') }}"
+                       class="flex items-center gap-3 pl-8 pr-4 py-2.5 text-sm font-medium  hover:bg-slate-50 hover:text-blue-600 transition-all">
+                        <i class="fa-solid fa-list-check text-base"></i>
+                        <span>Tugas</span>
+                    </a>
+                </li>
+            </ul>
+        @endif
     </nav>
 </aside>
 
@@ -57,7 +71,11 @@
         <div>
         </div>
         <div class="flex items-center gap-4">
-            <span class="text-sm font-medium text-slate-600">User Profile</span>
+            <form action="{{route('logout')}}" method="POST">
+                <button type="submit" class="bg-rose-600 hover:bg-rose-800 text-white text-sm px-3 py-2 rounded-sm">
+                    Logout
+                </button>
+            </form>
         </div>
     </header>
 

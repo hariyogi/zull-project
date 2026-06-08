@@ -30,7 +30,7 @@ class StaffController extends Controller
             return response()->view('unauthorized', [], 403);
         }
 
-        return view('staff.staffadd');
+        return view('staff.staff-add');
     }
 
     public function saveStaff(Request $request): RedirectResponse|Response

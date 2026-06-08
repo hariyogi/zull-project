@@ -14,11 +14,6 @@
     <div class="flex flex-col gap-4">
         <div class="flex justify-between items-end">
             <p class="input-label mb-0">List Tugas</p>
-            <a href={{ route('task.create') }}>
-                <button class="btn-primary">
-                    Tambah Task
-                </button>
-            </a>
         </div>
         <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
@@ -50,10 +45,10 @@
                             <td class="py-4 px-6">{{ $task->start_at }}</td>
                             <td class="py-4 px-6">{{ $task->end_at }}</td>
                             <td class="py-4 px-6">{{ $task->created_at }}</td>
-                            <td class="py-4 px-6 flex gap-2">
-                                <a href="{{route('task.detail', $task->task_id)}}" title="Lihat Detail Task">
+                            <td class="py-4 px-6 flex gap-2 flex-wrap">
+                                <a href="{{route('task.staff.report', $task->task_id)}}" title="Buat Laporan">
                                     <button class="border rounded-sm border-slate-300 hover:bg-slate-100 py-1 pl-2 pr-2.5 cursor-pointer">
-                                        <i class="fa-regular fa-eye text-slate-400 w-4"></i>
+                                        <i class="fa-regular fa-message text-slate-400 w-4"></i>
                                     </button>
                                 </a>
                             </td>
