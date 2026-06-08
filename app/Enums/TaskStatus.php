@@ -29,7 +29,7 @@ enum TaskStatus: string
             self::PENDING     => 'Ditunda',
             self::IN_PROGRESS => 'Pengerjaan',
             self::COMPLETED   => 'Selesai',
-            self::CANCELLED   => 'Gagal',
+            self::CANCELLED   => 'Dibatalkan',
         };
     }
 }

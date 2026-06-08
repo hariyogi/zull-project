@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Enums\TaskStatus;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityTask;
 use App\Models\Task;
@@ -25,7 +26,7 @@ class TaskStaffController extends Controller
 
         $tasks = Task::where('assign_to', Auth::id())
             ->with(['assignedTo', 'assignedBy'])
-            ->get();
+            ->paginate(50);
 
         return view('task.task-staff')->with('tasks', $tasks);
     }
@@ -36,15 +37,20 @@ class TaskStaffController extends Controller
             return response()->view('unauthorized', [], 403);
         }
 
-        $is_assigned = $this->isTaskAssignedTo($taskId, Auth::id());
+        if (Auth::user()->role == UserRole::STAFF) {
+            $task = $this->getAssignedTask($taskId, Auth::id());
 
-        if (!$is_assigned) {
-            return response()->view('unauthorized', [], 403);
+            if ($task == null) {
+                return response()->view('unauthorized', [], 403);
+            }
+            $taskStatus = [TaskStatus::COMPLETED, TaskStatus::CANCELLED, TaskStatus::PENDING];
+        }else {
+            $task = Task::find($taskId);
+            $taskStatus = TaskStatus::cases();
         }
 
-        $taskStatus = TaskStatus::cases();
 
-        return view('task.task-staff-report', compact('taskStatus', 'taskId'));
+        return view('task.task-staff-report', compact('taskStatus', 'taskId', 'task'));
     }
 
     public function storeReportStaff(Request $request, $taskId): RedirectResponse|Response
@@ -53,10 +59,12 @@ class TaskStaffController extends Controller
             return response()->view('unauthorized', [], 403);
         }
 
-        $is_assigned = $this->isTaskAssignedTo($taskId, Auth::id());
+        if (Auth::user()->role == UserRole::STAFF) {
+            $task = $this->getAssignedTask($taskId, Auth::id());
 
-        if (!$is_assigned) {
-            return response()->view('unauthorized', [], 403);
+            if ($task == null) {
+                return response()->view('unauthorized', [], 403);
+            }
         }
 
         $validate = $request->validate([
@@ -78,6 +86,7 @@ class TaskStaffController extends Controller
             $activity = ActivityTask::create([
                 'task_id' => $task->task_id,
                 'title' => $validate['title'],
+                'report_form' => Auth::id(),
                 'description' => $validate['description'],
             ]);
 
@@ -97,14 +106,19 @@ class TaskStaffController extends Controller
             }
         });
 
-        return redirect()->route('task.staff');
+        if (Auth::user()->role == UserRole::STAFF) {
+            return redirect()->route('task.staff');
+        }else {
+            return redirect()->route('task');
+        }
     }
 
-    private function isTaskAssignedTo($taskId, $staffId): bool
+    private function getAssignedTask($taskId, $staffId): Task|null
     {
         return Task::where('assign_to', $staffId)
             ->where('task_id', $taskId)
-            ->exists();
+            ->with(['assignedTo', 'assignedBy'])
+            ->first();
     }
 
 }

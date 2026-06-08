@@ -43,7 +43,7 @@
             </p>
         </div>
 
-        <a href="{{ route('login.staff') }}" class="btn-primary">
+        <a href="{{ route('login') }}" class="btn-primary">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  style="margin-right: 4px;">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
@@ -52,11 +52,5 @@
             </svg>
             Login Kembali
         </a>
-
-        <div style="margin-top: 16px;">
-            <a href="{{ route('login.admin') }}" class="btn-secondary">
-                Login sebagai Admin
-            </a>
-        </div>
     </div>
 @endsection

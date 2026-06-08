@@ -50,6 +50,23 @@
             >
         </div>
         <div>
+            <p class="input-label">Status</p>
+            <input
+                type="text"
+                disabled
+                value="{{$task->status->label()}}"
+                class="input-field"
+            >
+        </div>
+        <div class="flex justify-end gap-4">
+            <a href="{{route('task.update', $task->task_id)}}" class="btn-secondary">
+                <button>Edit Tugas</button>
+            </a>
+            <a href="{{route('task.staff.report', $task->task_id)}}" class="btn-secondary">
+                <button>Tambah Aktivitas</button>
+            </a>
+        </div>
+        <div>
             <p class="input-label">Aktivitas Tugas</p>
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
@@ -59,6 +76,8 @@
                             class="bg-slate-50/75 border-b border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-500">
                             <th class="py-4 px-6">Judul Aktivitas</th>
                             <th class="py-4 px-6">Deskripsi</th>
+                            <th class="py-4 px-6">Pembuat</th>
+                            <th class="py-4 px-6">Tanggal Laporan</th>
                             <th class="py-4 px-6">Bukti</th>
                         </tr>
                         </thead>
@@ -67,6 +86,8 @@
                             <tr>
                                 <td class="py-4 px-6">{{ $activity->title }}</td>
                                 <td class="py-4 px-6">{{ $activity->description }}</td>
+                                <td class="py-4 px-6">{{ $activity->reportFrom?->name ?? 'Sistem' }}</td>
+                                <td class="py-4 px-6">{{ $activity->created_at }}</td>
                                 <td class="py-4 px-6 flex gap-2 items-center">
                                     @if($activity->task_evidences_count > 0)
                                         <p>Ada {{ $activity->task_evidences_count }} bukti gambar</p>

@@ -26,8 +26,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/task', [TaskController::class, 'index'])->name('task');
 Route::get('/task/report', [TaskController::class, 'showReport'])->name('task.report');
 Route::get('/task/create', [TaskController::class, 'showCreateTask'])->name('task.create');
-Route::get('/task/detail/{taskId}', [TaskController::class, 'showDetailTask'])->name('task.detail');
 Route::post('/task/create', [TaskController::class, 'createTask'])->name('task.store');
+Route::get('/task/detail/{taskId}', [TaskController::class, 'showDetailTask'])->name('task.detail');
+Route::get('/task/{taskId}/update', [TaskController::class, 'showUpdateTask'])->name('task.update');
+Route::post('/task/{taskId}/update', [TaskController::class, 'updateTask'])->name('task.update.store');
 Route::get('/activity/{activity_task_id}/evidences', [TaskController::class, 'showEvidences'])->name('task.activity.evidences');
 
 Route::get('/task/staff', [TaskStaffController::class, 'indexStaff'])->name('task.staff');

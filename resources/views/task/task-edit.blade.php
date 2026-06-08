@@ -2,11 +2,12 @@
 
 @section('breadcrumb')
     <x-breadcrumb
-        page_title="Menambahkan Tugas"
+        page_title="Edit Tugas"
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
             ['label' => 'Tugas', 'url' => route('task')],
-            ['label' => 'Tambah', 'url' => '']
+            ['label' => 'Detail', 'url' => route('task.detail', $taskId)],
+            ['label' => 'Edit', 'url' => '']
         ]"
     />
 @endsection
@@ -33,7 +34,7 @@
         @error('any_error')
             <p>{{ $message }}</p>
         @enderror
-        <form action="{{ route('task.store') }}" method="post" class="flex flex-col gap-4">
+        <form action="{{ route('task.update.store', $taskId) }}" method="post" class="flex flex-col gap-4">
             @csrf
             <div>
                 <label class="input-label" for="title">Judul Tugas</label>
@@ -43,7 +44,7 @@
                     type="text"
                     required
                     class="input-field"
-                    value="{{ old('title') }}"
+                    value="{{ old('title', $task->title) }}"
                 />
             </div>
             <div>
@@ -54,7 +55,7 @@
                     type="text"
                     required
                     class="input-field"
-                    value="{{ old('description') }}"
+                    value="{{ old('description', $task->description) }}"
                 />
             </div>
             <div>
@@ -67,11 +68,35 @@
                 >
                     <option value="" disabled>--- Pilih Staff ---</option>
                     @foreach ($staffs as  $staff)
-                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                        <option
+                            value="{{ $staff->id }}"
+                            {{ old('assign_to', $task->assign_to) == $staff->id ? 'selected' : '' }}
+                        >
+                            {{ $staff->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
-            <input type="submit" class="btn-primary" value="Simpan Tugas" />
+            <div>
+                <label class="input-label" for="status">Status</label>
+                <select
+                    name="status"
+                    id="status"
+                    required
+                    class="input-field"
+                >
+                    <option value="" disabled>--- Pilih Status ---</option>
+                    @foreach ($taskStatus as  $item)
+                        <option
+                            value="{{ $item->value }}"
+                            {{ old('status', $task->status->value ?? $task->status) == $item->value ? 'selected' : '' }}
+                        >
+                            {{ $item->label() }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <input type="submit" class="btn-primary" value="Edit Tugas" />
         </form>
     </div>
 

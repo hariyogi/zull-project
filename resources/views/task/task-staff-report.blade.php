@@ -1,22 +1,43 @@
+@php use App\Enums\UserRole; @endphp
 @extends('layouts.dashboard')
 
 @section('breadcrumb')
-    <x-breadcrumb
-        page_title="Laporan Tugas"
-        :items="[
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Tugas', 'url' => route('task.staff')],
-            ['label' => 'Laporan', 'url' => '']
-        ]"
-    />
+    @if(auth()->user()->role == UserRole::STAFF)
+        <x-breadcrumb
+            page_title="Laporan Tugas"
+            :items="[
+                ['label' => 'Home', 'url' => route('dashboard')],
+                ['label' => 'Tugas', 'url' => route('task.staff')],
+                ['label' => 'Laporan', 'url' => '']
+            ]"
+        />
+    @else
+        <x-breadcrumb
+            page_title="Laporan Tugas"
+            :items="[
+                ['label' => 'Home', 'url' => route('dashboard')],
+                ['label' => 'Tugas', 'url' => route('task')],
+                ['label' => 'Detail', 'url' => route('task.detail', $task->task_id)],
+                ['label' => 'Laporan', 'url' => '']
+            ]"
+        />
+    @endif
 @endsection
 
 @section('content')
     <div>
+        <div class="mb-6 border-b border-slate-100">
+            <h1 class="text-xl font-bold text-slate-800">{{ $task->title }}</h1>
+            <p class="text-sm text-slate-500 mt-1">{{ $task->description }}</p>
+            <span class="text-xs text-slate-400 block mt-2">
+            Pelapor: {{ $task->assignedBy->name }}
+        </span>
+        </div>
         @if ($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl mb-5 text-sm">
                 <div class="flex items-center mb-2 font-semibold text-red-900">
-                    <svg class="w-5 height-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-5 height-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="12" y1="8" x2="12" y2="12"></line>
                         <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -33,7 +54,9 @@
         @error('any_error')
         <p>{{ $message }}</p>
         @enderror
-        <form action="{{ route('task.staff.report.store', $taskId) }}" method="post" class="flex flex-col gap-4" enctype="multipart/form-data">
+        <form action="{{ route('task.staff.report.store', $taskId) }}" method="post"
+              class="flex flex-col gap-4 bg-white rounded-xl shadow-sm border border-slate-200 p-6"
+              enctype="multipart/form-data">
             @csrf
             <div>
                 <label class="input-label" for="title">Judul Laporan</label>
@@ -83,7 +106,7 @@
                 />
                 <p class="text-xs text-slate-400 mt-1">Format: JPG, JPEG, PNG.</p>
             </div>
-            <input type="submit" class="btn-primary" value="Laporkan" />
+            <input type="submit" class="btn-primary" value="Laporkan"/>
         </form>
     </div>
 @endsection

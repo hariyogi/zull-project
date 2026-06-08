@@ -66,6 +66,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="p-4 border-t border-slate-200 bg-slate-50">
+                {{ $tasks->links() }}
+            </div>
         </div>
     </div>
 @endsection
