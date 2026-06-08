@@ -42,7 +42,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'username' => 'Kredensial login admin tidak cocok',
+            'username' => 'Kredensial login tidak cocok',
         ])->onlyInput('username');
     }
 

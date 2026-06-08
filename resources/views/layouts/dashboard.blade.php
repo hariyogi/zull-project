@@ -26,6 +26,11 @@
     <nav class="flex-1 overflow-y-auto text-white">
         @if(auth()->user()->role == UserRole::ADMIN)
             <ul class="flex flex-col gap-1">
+                <li class="text-sm px-4 py-2.5">
+                    <a href="{{route('dashboard')}}">
+                        Home
+                    </a>
+                </li>
                 <li class="text-sm px-4 py-2.5">Manajemen Tugas</li>
                 <li>
                     <a href="{{route('task.report')}}"
@@ -52,6 +57,11 @@
             </ul>
         @else
             <ul class="flex flex-col gap-1">
+                <li class="text-sm px-4 py-2.5">
+                    <a href="{{route('dashboard')}}">
+                        Home
+                    </a>
+                </li>
                 <li class="text-sm px-4 py-2.5">Tugas Anda</li>
                 <li>
                     <a href="{{ route('task.staff') }}"
@@ -68,10 +78,23 @@
 <div class="flex-1 flex flex-col h-full overflow-hidden">
 
     <header class="bg-white h-14 shadow-md flex items-center px-6 justify-between shrink-0">
-        <div>
+        <div class="flex gap-2 text-sm font-medium items-center">
+            <p>Hai, {{auth()->user()->name}}. Anda login sebagai {{auth()->user()->role->label()}}</p>
+            <div x-data="{
+                time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            }"
+                 x-init="setInterval(() => {
+                time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            }, 1000)"
+                 class="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200"
+            >
+                <i class="fa-regular fa-clock text-sky-600"></i>
+                <span x-text="time"></span>
+            </div>
         </div>
         <div class="flex items-center gap-4">
             <form action="{{route('logout')}}" method="POST">
+                @csrf
                 <button type="submit" class="bg-rose-600 hover:bg-rose-800 text-white text-sm px-3 py-2 rounded-sm">
                     Logout
                 </button>
