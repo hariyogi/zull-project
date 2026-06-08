@@ -6,7 +6,7 @@
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
             ['label' => 'Staff', 'url' => route('staff')],
-            ['label' => 'Tambah', 'url' => '']
+            ['label' => 'Detail', 'url' => route('staff.detail', $staffId)]
         ]"
     />
 @endsection
@@ -30,33 +30,8 @@
                 </ul>
             </div>
         @endif
-        @error('any_error')
-        <p>{{ $message }}</p>
-        @enderror
-        <form action="{{ route('staff.store') }}" method="post" class="flex flex-col gap-4">
+        <form action="{{ route('staff.change-pass.store', $staffId) }}" method="post" class="flex flex-col gap-4">
             @csrf
-            <div>
-                <label class="input-label" for="username">Username</label>
-                <input
-                    name="username"
-                    id="username"
-                    type="text"
-                    required
-                    class="input-field"
-                    value="{{ old('username') }}"
-                />
-            </div>
-            <div>
-                <label class="input-label" for="name">Nama</label>
-                <input
-                    name="name"
-                    id="name"
-                    type="text"
-                    required
-                    class="input-field"
-                    value="{{ old('name') }}"
-                />
-            </div>
             <div>
                 <label class="input-label" for="password">Password</label>
                 <input
@@ -77,7 +52,7 @@
                     class="input-field"
                 />
             </div>
-            <input type="submit" class="btn-primary" value="Tambahkan Staff" />
+            <input type="submit" class="btn-primary" value="Ganti Password" />
         </form>
     </div>
 

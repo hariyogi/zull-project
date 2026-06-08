@@ -6,7 +6,8 @@
         :items="[
             ['label' => 'Home', 'url' => route('dashboard')],
             ['label' => 'Staff', 'url' => route('staff')],
-            ['label' => 'Tambah', 'url' => '']
+            ['label' => 'Detail', 'url' => route('staff.detail', $staff->id)],
+            ['label' => 'Edit', 'url' => '']
         ]"
     />
 @endsection
@@ -30,10 +31,7 @@
                 </ul>
             </div>
         @endif
-        @error('any_error')
-        <p>{{ $message }}</p>
-        @enderror
-        <form action="{{ route('staff.store') }}" method="post" class="flex flex-col gap-4">
+        <form action="{{ route('staff.edit.store', $staff->id) }}" method="post" class="flex flex-col gap-4">
             @csrf
             <div>
                 <label class="input-label" for="username">Username</label>
@@ -43,7 +41,7 @@
                     type="text"
                     required
                     class="input-field"
-                    value="{{ old('username') }}"
+                    value="{{ old('username', $staff->username) }}"
                 />
             </div>
             <div>
@@ -54,30 +52,10 @@
                     type="text"
                     required
                     class="input-field"
-                    value="{{ old('name') }}"
+                    value="{{ old('name', $staff->name) }}"
                 />
             </div>
-            <div>
-                <label class="input-label" for="password">Password</label>
-                <input
-                    name="password"
-                    id="password"
-                    type="password"
-                    required
-                    class="input-field"
-                />
-            </div>
-            <div>
-                <label class="input-label" for="password_confirmation">Konfirmasi Password</label>
-                <input
-                    name="password_confirmation"
-                    id="password_confirmation"
-                    type="password"
-                    required
-                    class="input-field"
-                />
-            </div>
-            <input type="submit" class="btn-primary" value="Tambahkan Staff" />
+            <input type="submit" class="btn-primary" value="Edit Staff" />
         </form>
     </div>
 

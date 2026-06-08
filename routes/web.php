@@ -40,3 +40,8 @@ Route::post('/task/staff/{taskId}/report', [TaskStaffController::class, 'storeRe
 Route::get('/staff', [StaffController::class, 'index'])->name('staff');
 Route::get('/staff/create', [StaffController::class, 'showCreateStaff'])->name('staff.create');
 Route::post('/staff/create', [StaffController::class, 'saveStaff'])->name('staff.store');
+Route::get('/staff/{staffId}/detail', [StaffController::class, 'showDetailStaff'])->name('staff.detail');
+Route::get('/staff/{staffId}/change-pass', [StaffController::class, 'showChangePasswordStaff'])->name('staff.change-pass');
+Route::post('/staff/{staffId}/change-pass', [StaffController::class, 'changePasswordStaff'])->name('staff.change-pass.store');
+Route::get('/staff/{staffId}/edit', [StaffController::class, 'showEditStaff'])->name('staff.edit');
+Route::post('/staff/{staffId}/edit', [StaffController::class, 'editStaff'])->name('staff.edit.store');

@@ -31,9 +31,6 @@
                 </ul>
             </div>
         @endif
-        @error('any_error')
-            <p>{{ $message }}</p>
-        @enderror
         <form action="{{ route('task.update.store', $taskId) }}" method="post" class="flex flex-col gap-4">
             @csrf
             <div>
