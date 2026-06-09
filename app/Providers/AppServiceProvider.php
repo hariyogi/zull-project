@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') === 'production' || env('APP_URL')) {
+            URL::forceScheme('https');
+        }
         Paginator::useTailwind();
     }
 }
