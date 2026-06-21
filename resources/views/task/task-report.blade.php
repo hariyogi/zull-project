@@ -12,13 +12,16 @@
 @endsection
 
 @section('content')
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-4">
         <div>
-            <p class="input-label">Laporan Tugas</p>
-            <div class="grid grid-cols-5 gap-4">
+            <p class="input-label mb-3">Laporan Tugas</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 @foreach(TaskStatus::cases() as $status)
-                    <div class="bg-white p-4 rounded-xl border border-slate-200">
-                        <p class="text-sm font-medium text-slate-500">{{ $status->label() }}</p>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-md">
+                        <p class="text-sm font-medium text-slate-500 truncate" title="{{ $status->label() }}">
+                            {{ $status->label() }}
+                        </p>
                         <p class="text-2xl font-bold text-slate-800 mt-1">
                             {{ $taskCounts[$status->value] ?? 0 }}
                         </p>
