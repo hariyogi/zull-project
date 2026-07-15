@@ -32,6 +32,7 @@ Route::middleware(['role:ADMIN'])->group(function () {
     Route::post('/task/{taskId}/update', [TaskController::class, 'updateTask'])->name('task.update.store');
     Route::get('/task/detail/{taskId}', [TaskController::class, 'showDetailTask'])->name('task.detail');
     Route::get('/activity/{activity_task_id}/evidences', [TaskController::class, 'showEvidences'])->name('task.activity.evidences');
+    Route::get('/task/download', [TaskController::class, 'downloadExcel'])->name('task.download');
     // Manajemen Staff
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
     Route::get('/staff/create', [StaffController::class, 'showCreateStaff'])->name('staff.create');
