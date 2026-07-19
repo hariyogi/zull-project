@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class TaskController extends Controller
 {
@@ -38,7 +40,7 @@ class TaskController extends Controller
     {
         $query = Task::with(['assignedTo', 'assignedBy']);
 
-        // Terapkan filter rentang waktu yang sama
+        // Terapkan filter rentang waktu
         if ($request->filled('start_date')) {
             $query->whereDate('created_at', '>=', $request->start_date);
         }
@@ -47,46 +49,61 @@ class TaskController extends Controller
         }
 
         $tasks = $query->latest()->get();
-        $fileName = 'Laporan_Tugas_' . now()->format('Ymd_His') . '.csv';
 
-        // Membuat file stream download langsung ke browser
-        $response = new StreamedResponse(function () use ($tasks) {
-            $handle = fopen('php://output', 'w');
+        // Ubah ekstensi menjadi .xlsx
+        $fileName = 'Laporan_Tugas_' . now()->format('Ymd_His') . '.xlsx';
 
-            // Supaya Excel bisa membaca format UTF-8 dengan benar (BOM)
-            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+        // Inisialisasi file Excel
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-            // Judul Kolom di file Excel
-            fputcsv($handle, [
-                'Judul Tugas',
-                'Deskripsi',
-                'Status',
-                'Petugas (Assigned To)',
-                'Pelapor (Assigned By)',
-                'Tanggal Mulai',
-                'Tanggal Selesai',
-                'Tanggal Dibuat'
-            ], ';'); // Menggunakan separator titik koma (;) agar otomatis rapi saat dibuka di Microsoft Excel daerah Indonesia
+        // 1. Buat Judul Kolom (Baris 1)
+        $headers = [
+            'A1' => 'Judul Tugas',
+            'B1' => 'Deskripsi',
+            'C1' => 'Status',
+            'D1' => 'Petugas (Assigned To)',
+            'E1' => 'Pelapor (Assigned By)',
+            'F1' => 'Tanggal Mulai',
+            'G1' => 'Tanggal Selesai',
+            'H1' => 'Tanggal Dibuat',
+        ];
 
-            // Isi Data dari Database
-            foreach ($tasks as $task) {
-                fputcsv($handle, [
-                    $task->title,
-                    $task->description,
-                    $task->status->value ?? $task->status,
-                    $task->assignedTo->name ?? '-',
-                    $task->assignedBy->name ?? '-',
-                    $task->start_at ? $task->start_at : '-',
-                    $task->end_at ? $task->end_at : '-',
-                    $task->created_at
-                ], ';');
-            }
+        foreach ($headers as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+            // Cetak tebal (bold) untuk header
+            $sheet->getStyle($cell)->getFont()->setBold(true);
+        }
 
-            fclose($handle);
+        // 2. Isi Data dari Database (Mulai dari Baris 2)
+        $row = 2;
+        foreach ($tasks as $task) {
+            $sheet->setCellValue('A' . $row, $task->title);
+            $sheet->setCellValue('B' . $row, $task->description);
+            $sheet->setCellValue('C' . $row, $task->status->value ?? $task->status);
+            $sheet->setCellValue('D' . $row, $task->assignedTo->name ?? '-');
+            $sheet->setCellValue('E' . $row, $task->assignedBy->name ?? '-');
+            $sheet->setCellValue('F' . $row, $task->start_at ? $task->start_at : '-');
+            $sheet->setCellValue('G' . $row, $task->end_at ? $task->end_at : '-');
+            $sheet->setCellValue('H' . $row, $task->created_at);
+            $row++;
+        }
+
+        // (Opsional) Sesuaikan lebar kolom otomatis
+        foreach (range('A', 'H') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        // 3. Buat response stream untuk download
+        $response = new StreamedResponse(function () use ($spreadsheet) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
         });
 
-        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        // Set header khusus untuk format .xlsx
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        $response->headers->set('Cache-Control', 'max-age=0');
 
         return $response;
     }
